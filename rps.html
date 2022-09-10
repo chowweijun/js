@@ -2,10 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <link rel ="stylesheet" href="rps.css">
   </head>
 
   <body>
+    <div id="container">
+      <button id="rock" alt="rock">Rock</button>
+      <button id="paper">Paper</button>
+      <button id="scissors">Scissors</button>
+    </div>
+    <div id="content"></div>
     <script>
+      const content = document.querySelector("#content")
+      const result = document.createElement("div")
+      result.classList.add('result')
+      result.setAttribute('style','white-space: pre;')
+      content.appendChild(result)
+      
       items = ["rock","paper","scissors"];
     
       function getComputerChoice() {
@@ -15,71 +28,67 @@
       
       function playRound(playerSelection,computerSelection) {
         
+        
         if (((playerSelection.toLowerCase() == "rock") && (computerSelection.toLowerCase() == "scissors")) ||
            ((playerSelection.toLowerCase() == "scissors") && (computerSelection.toLowerCase() == 'paper')) ||
            ((playerSelection.toLowerCase() == "paper") && (computerSelection.toLowerCase() == "rock"))) {
           
-          alert("You won");
-          console.log("You picked" + " " + playerSelection + "." + " " + "Computer picked" + " " + computerSelection);
-          console.log("You won!")
           playerCount++
-          console.log("Player\'s Score :" + playerCount)
-          console.log("Computer\'s Score :" + computerCount)
+          result.textContent = "You picked" + " " + playerSelection + "." + " " + "Computer picked" + " " + computerSelection + ".\r\nYou won!\
+                                \r\nPlayer\'s Score :" + " " + playerCount + ".\r\n\
+Computer\'s Score :" + " " + computerCount +".\r\n"          
         }
         
         else if (((playerSelection.toLowerCase() == "rock") && (computerSelection.toLowerCase() == "paper")) ||
                 ((playerSelection.toLowerCase() == "scissors") && (computerSelection.toLowerCase() == 'rock')) ||
                 ((playerSelection.toLowerCase() == "paper") && (computerSelection.toLowerCase() == "scissors"))) {
           
-          alert("You lost.");
-          console.log("You picked" + " " + playerSelection + "." + " " + "Computer picked" + " " + computerSelection);
-          console.log("You lost")
           computerCount++
-          console.log("Player\'s Score :" + playerCount)
-          console.log("Computer\'s Score :" + computerCount)
+          result.textContent = "You picked" + " " + playerSelection + "." + " " + "Computer picked" + " " + computerSelection + ".\r\nYou lost.\
+                                \r\nPlayer\'s Score :" + " " + playerCount + ".\r\n\
+Computer\'s Score :" + " " + computerCount +".\r\n"
         }
 
         else if (((playerSelection.toLowerCase() == "rock") && (computerSelection.toLowerCase() == "rock")) ||
                 ((playerSelection.toLowerCase() == "scissors") && (computerSelection.toLowerCase() == 'scissors')) ||
                 ((playerSelection.toLowerCase() == "paper") && (computerSelection.toLowerCase() == "paper"))) {
           
-          alert("It\'s a draw!");
-          console.log("You picked" + " " + playerSelection + "." + " " + "Computer picked" + " " + computerSelection);
-          console.log("It\'s a draw")
-          console.log("Player\'s Score :" + playerCount)
-          console.log("Computer\'s Score :" + computerCount)
+          
+          result.textContent = "You picked" + " " + playerSelection + "." + " " + "Computer picked" + " " + computerSelection + ".\r\nIt\'s a draw!\
+\r\nPlayer\'s Score :" + " " + playerCount + ".\r\n\
+Computer\'s Score :" + " " + computerCount +"."
+          
         }
       }
-
-      function outcome() {
-        if (playerCount > computerCount) {
-          alert("You won the game!")
-        }
-
-        else if (computerCount > playerCount) {
-          alert("You lost.")
-        }
-        
-        else {
-          alert("It\'s a draw!")
-        }
-          
-          
-        }
+      
+      
 
       function game() {
         playerCount = 0
         computerCount = 0
-        for (let i = 0; i < 6; i++) {
-          console.log(i)
-          let playerSelection = prompt("Would you like to pick Rock, Paper or Scissors ?")
-          let computerSelection = getComputerChoice()
-          playRound(playerSelection,computerSelection)
-        }
-      }
+        
+        const buttons = document.querySelectorAll("button")
+        buttons.forEach((button) => {
+          
+          button.addEventListener('click', () => {
+            playerSelection = button.id
+            let computerSelection = getComputerChoice()
+            playRound(playerSelection,computerSelection)
+            document.querySelector(".result").innerHTML = result.textContent
+            if (playerCount === 5) {
+              result.textContent = "Player Won!"
+            }
+            else if (computerCount === 5) {
+              result.textContent = "You lost."
+            }
+          }
+          )
+        } 
+      )}
+          
 
-      game()
-      outcome()
+    game()
+      
     </script>
   </body>
 </html>
